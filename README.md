@@ -3,6 +3,8 @@ ID : 212733257
 This repository is for the first image processing and computer vision assignment <br>
 This assignment focuses on image representations and point operations <br>
 For this assingment I worked with python 3.8.10 and I used the pycharm IDE
+The code files are ex1_main, ex1_utils and gamma  
+
 --------------
 
 ## The project itself:
