@@ -12,7 +12,7 @@ In this overview I will use the "beach.jpg" picutre that was given to us <br>
 <p align = "center">
 grayscale representation
 </p>
-<p align = "center"><img src = "https://github.com/LiorBreitman8234/Ex1_CV-IP/tree/main/files_for_readme/gray.png"> </p>
+![grayscale](https://github.com/LiorBreitman8234/Ex1_CV-IP/tree/main/files_for_readme/gray.png)
 ----------
 
 <p align = "center">
