@@ -12,16 +12,16 @@ In this overview I will use the "beach.jpg" picutre that was given to us <br>
 <p align = "center">
 grayscale representation
 </p>
-<p align = "center"><img src = "/home/bravo8234/Desktop/repos/IP-CV/Ex1_CV-IP/files_for_readme/gray.png"> </p>
+<p align = "center"><img src = "https://github.com/LiorBreitman8234/Ex1_CV-IP/tree/main/files_for_readme/gray.png"> </p>
 ----------
 
 <p align = "center">
 rgb representation
 </p>
-<p align = "center"><img src = "/home/bravo8234/Desktop/repos/IP-CV/Ex1_CV-IP/files_for_readme/rgb.png"> </p>
+<p align = "center"><img src = "https://github.com/LiorBreitman8234/Ex1_CV-IP/tree/main/files_for_readme/rgb.png"> </p>
 ----------
 
-<p align = "center"><img src = "/home/bravo8234/Desktop/repos/IP-CV/Ex1_CV-IP/files_for_readme/rgb_to_yiq.png"> </p>
+<p align = "center"><img src = "https://github.com/LiorBreitman8234/Ex1_CV-IP/tree/main/files_for_readme/rgb_to_yiq.png"> </p>
 <p align = "center">
 rgb to yiq
 </p>
@@ -35,25 +35,25 @@ The point operations that i needed to implement were:<br>
 <p align = "center">
 histogram equalization - grayscale
 </p> 
-<p align = "center"><img src = "/home/bravo8234/Desktop/repos/IP-CV/Ex1_CV-IP/files_for_readme/eq_gray.png"> </p>
+<p align = "center"><img src = "https://github.com/LiorBreitman8234/Ex1_CV-IP/tree/main/files_for_readme/eq_gray.png"> </p>
 --------------
 
 <p align = "center">
 histograms - grayscale (red- before, green-after)
 </p>
-<p align = "center"><img src = "/home/bravo8234/Desktop/repos/IP-CV/Ex1_CV-IP/files_for_readme/hist_eq_gray.png"> </p>
+<p align = "center"><img src = "https://github.com/LiorBreitman8234/Ex1_CV-IP/tree/main/files_for_readme/hist_eq_gray.png"> </p>
 --------------
 
 <p align = "center">
 histogram equalization - rgb
 </p>
-<p align = "center"><img src = "/home/bravo8234/Desktop/repos/IP-CV/Ex1_CV-IP/files_for_readme/eq_rgb.png"> </p>
+<p align = "center"><img src = "https://github.com/LiorBreitman8234/Ex1_CV-IP/tree/main/files_for_readme/eq_rgb.png"> </p>
 --------------
 
 <p align = "center">
 histograms - rgb (red- before, green-after)
 </p>
-<p align = "center"><img src = "/home/bravo8234/Desktop/repos/IP-CV/Ex1_CV-IP/files_for_readme/hist_eq_rgb.png"> </p>
+<p align = "center"><img src = "https://github.com/LiorBreitman8234/Ex1_CV-IP/tree/main/files_for_readme/hist_eq_rgb.png"> </p>
 --------------
 
 ##### Quantization:
@@ -61,36 +61,36 @@ histograms - rgb (red- before, green-after)
 <p align = "center">
 grayscale - first quantization
 </p>
-<p align = "center"><img src = "/home/bravo8234/Desktop/repos/IP-CV/Ex1_CV-IP/files_for_readme/first_quant.png"> </p>
+<p align = "center"><img src = "https://github.com/LiorBreitman8234/Ex1_CV-IP/tree/main/files_for_readme/first_quant.png"> </p>
 --------------
 <p align = "center">
 grayscale - last quantization
 </p>
-<p align = "center"><img src = "/home/bravo8234/Desktop/repos/IP-CV/Ex1_CV-IP/files_for_readme/last_quant.png"> </p>
+<p align = "center"><img src = "https://github.com/LiorBreitman8234/Ex1_CV-IP/tree/main/files_for_readme/last_quant.png"> </p>
 --------------
 
 <p align = "center">
 grayscale quantization - error plot
 </p>
-<p align = "center"><img src = "/home/bravo8234/Desktop/repos/IP-CV/Ex1_CV-IP/files_for_readme/quant_error_gray.png"> </p>
+<p align = "center"><img src = "https://github.com/LiorBreitman8234/Ex1_CV-IP/tree/main/files_for_readme/quant_error_gray.png"> </p>
 --------------
 
 
 <p align = "center">
 rgb - first quantization
 </p>
-<p align = "center"><img src = "/home/bravo8234/Desktop/repos/IP-CV/Ex1_CV-IP/files_for_readme/first_quant_rgb.png"> </p>
+<p align = "center"><img src = "https://github.com/LiorBreitman8234/Ex1_CV-IP/tree/main/files_for_readme/first_quant_rgb.png"> </p>
 --------------
 <p align = "center">
 rgb - last quantization
 </p>
-<p align = "center"><img src = "/home/bravo8234/Desktop/repos/IP-CV/Ex1_CV-IP/files_for_readme/last_quant_rgb.png"> </p>
+<p align = "center"><img src = "https://github.com/LiorBreitman8234/Ex1_CV-IP/tree/main/files_for_readme/last_quant_rgb.png"> </p>
 --------------
 
 <p align = "center">
 rgb quantization - error plot
 </p>
-<p align = "center"><img src = "/home/bravo8234/Desktop/repos/IP-CV/Ex1_CV-IP/files_for_readme/quant_error_rgb.png"> </p>
+<p align = "center"><img src = "https://github.com/LiorBreitman8234/Ex1_CV-IP/tree/main/files_for_readme/quant_error_rgb.png"> </p>
 --------------
 
 
