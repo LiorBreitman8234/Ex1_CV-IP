@@ -109,17 +109,27 @@ def hsitogramEqualize(imOrig: np.ndarray) -> (np.ndarray, np.ndarray, np.ndarray
         :param imOrig: Original Histogram
         :ret
     """
-
-    norm_im = cv2.normalize(imOrig, None, 0, 255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
+    pic = imOrig
+    if len(imOrig.shape) == 3:
+        y, i, q = cv2.split(transformRGB2YIQ(imOrig))
+        pic = y
+    norm_im = cv2.normalize(pic, None, 0, 255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
     norm_im = norm_im.astype(int)
     origHist = np.histogram(norm_im, bins=256)
     cumSum = np.cumsum(origHist[0])
     norm_cumSum = (cumSum / cumSum.max())
     LUT = np.ceil(norm_cumSum * 255)
-    new_im = numpy.copy(imOrig)
+    new_im = numpy.copy(pic)
     for i in range(256):
         new_im[norm_im == i] = LUT[i]
     histNew = np.histogram(new_im, bins=256)
+
+    if len(imOrig.shape) == 3:
+        y, i, q = cv2.split(transformRGB2YIQ(imOrig))
+        new_im = new_im / 255
+        new_pic = np.dstack((new_im, i, q))
+        new_pic = transformYIQ2RGB(new_pic)
+        return new_pic, origHist[0], histNew[0]
     new_im = new_im / 255
     return new_im, origHist[0], histNew[0]
 
