@@ -36,11 +36,17 @@ def imReadAndConvert(filename: str, representation: int) -> np.ndarray:
     """
     if representation == 1:
         im = cv2.imread(filename, cv2.IMREAD_GRAYSCALE)
+        if im is None:
+            print("image not found")
+            return np.zeros(255)
         mat = np.asarray(im, np.float)
         mat = mat / 255
     else:
         im = cv2.imread(filename, cv2.IMREAD_COLOR)
         im = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
+        if im is None:
+            print("image not found")
+            return np.zeros(255)
         mat = np.asarray(im, np.float)
         mat = mat / 255
     return mat
@@ -54,6 +60,8 @@ def imDisplay(filename: str, representation: int):
     :return: None
     """
     im = imReadAndConvert(filename, representation)
+    if im == np.zeros(255):
+        print("error loading image")
     if representation == 1:
         plt.imshow(im, cmap='gray')
     else:
@@ -124,45 +132,81 @@ def quantizeImage(imOrig: np.ndarray, nQuant: int, nIter: int) -> (List[np.ndarr
         :param nIter: Number of optimization loops
         :return: (List[qImage_i],List[error_i])
     """
-    # initial bounds
-    workOn = imOrig
-    flag = 0
-    if len(imOrig.shape) == 3:
-        imYIQ = transformRGB2YIQ(imOrig)
-        y,i,q = cv2.split(imYIQ)
-        workOn = y
-        flag = 1
+    if imOrig is None:
+        print("error loading image")
+        return [], []
+    # if grayscale, run the algorithm
+    if len(imOrig.shape) == 2:
+        return QuantProcess(imOrig, nQuant, nIter)
 
-    boundSize = float(255) / float(nQuant)
-    print(boundSize)
-    bounds = np.arange(0, 256 - boundSize, np.floor(boundSize), dtype = int)
-    bounds = np.append(bounds, 255)
+    # else take the y of the yiq transformation and use it
+    imYIQ = transformRGB2YIQ(imOrig)
+    y, i, q = cv2.split(imYIQ)
+    pics, errors = QuantProcess(y.copy(), nQuant, nIter)
+    fixedPics = []
+    for pic in pics:
+        fixed_pic = np.dstack((pic, i, q))
+        fixed_pic = transformYIQ2RGB(fixed_pic)
+        fixedPics.append(fixed_pic)
+
+    return fixedPics, errors
+
+
+def QuantProcess(pic, nQuant, nIter):
+    """
+    this function is the Quantization process itself
+    :param pic: the picture to run the algorithm on
+    :param nQuant: the amount of colors wanted
+    :param nIter: how many iteration to do
+    :return: list of the images and list of errors in each stage
+    """
     # normalizing picture and using histogram
-    norm_im = cv2.normalize(workOn, None, 0, 255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
+    norm_im = cv2.normalize(pic, None, 0, 255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
     norm_im = norm_im.astype(int)
-    hist = np.histogram(workOn, bins=256)
-    means = np.zeros(nQuant)
+    im_flat = norm_im.ravel().astype(int)
+    hist = np.histogram(im_flat, bins=256)
+
+    # setting up initial boundaries
+    amountOfPixelsInRange = (pic.shape[0] * pic.shape[1]) / nQuant
+    count = 0
+    bounds = [0]
+    for i in range(256):
+        if count < amountOfPixelsInRange:
+            count += hist[0][i]
+        else:
+            count = 0
+            bounds.append(i)
+    bounds.append(255)
+    bounds = np.asarray(bounds, dtype=int)
+
     pics = []
     errors = []
-    # the algo itself
+
+    # looping for the amount of iterations required
     for j in range(nIter):
+        means = []
+        # calculating the mean for each part of the histogram
         for i in range(nQuant):
-            means[i] = hist[2][np.floor(np.mean(hist[0][bounds[i]:bounds[i+1]]))]
+            array = hist[0][bounds[i]:bounds[i + 1]]
+            z_i = np.average(array, weights=range(len(array)))
+            idx = (np.abs(array - z_i)).argmin() + bounds[i]
+            means.append(idx)
+
+        # setting the new pic with the mean values
+        Quant_pic = np.zeros_like(norm_im)
+        for i in range(len(bounds) - 1):
+            Quant_pic[norm_im > bounds[i]] = means[i]
+
+        # calculating mse
+        mse = np.sqrt((norm_im - Quant_pic) ** 2).mean()
+        errors.append(mse)
+
+        Quant_pic = Quant_pic / 255
+        pics.append(Quant_pic)
+
+        # setting new boundaries
         runOver = np.arange(1, len(means))
         for i in runOver:
-            print(i)
-            print(bounds[i])
-            print(means[i])
-            bounds[i] = np.floor((means[i-1] + means[i])/2)
-        mse = np.sqrt(np.square(np.sum(imOrig - means.mean()))) / (imOrig.shape[0] * imOrig.shape[1])
-        errors.append(mse)
-        if flag == 1:
-            imYIQ = transformRGB2YIQ(imOrig)
-            y, i, q = cv2.split(imYIQ)
-            mat = np.asarray([workOn, i, q])
-            mat = np.moveaxis(mat, 0, -1)
-            pics.append(mat/255)
-        else:
-            pics.append(workOn/255)
+            bounds[i] = np.floor((means[i - 1] + means[i]) / 2)
 
     return pics, errors

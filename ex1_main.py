@@ -3,6 +3,7 @@ from gamma import gammaDisplay
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+import cv2
 
 
 def histEqDemo(img_path: str, rep: int):
@@ -49,7 +50,7 @@ def main():
     print("ID:", myID())
     img_path = 'beach.jpg'
 
-    # Basic read and display
+    #Basic read and display
     imDisplay(img_path, LOAD_GRAY_SCALE)
     imDisplay(img_path, LOAD_RGB)
 
